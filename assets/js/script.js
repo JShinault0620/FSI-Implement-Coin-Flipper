@@ -1,27 +1,52 @@
-// TODO: Declare any global variables we need
+// Declaring variables to record outcomes
+let headsTotal = 0
+let tailsTotal = 0
 
+// Declaring HTML elements as variables
+let image = document.querySelector("#image")
+image.src = "./assets/images/penny-heads.jpg"
 
-document.addEventListener('DOMContentLoaded', function () {
-    // This is just a sanity check to make sure your JavaScript script is getting loaded
-    // You can remove it once you see it in your browser console in the developer tools
-    console.log('Hi')
+let flipper = document.querySelector("#flip")
 
-    // TODO: Add event listener and handler for flip and clear buttons
+let reset = document.querySelector("#clear")
 
-    // Flip Button Click Handler
-        // TODO: Determine flip outcome
-        // TODO: Update image and status message in the DOM
+// Creating function to calculate percentages
+function findPercent(x, y) {
+    let total = x + y
+    if (total != 0) {
+        return Math.round((100 * x) / total);
+    } else {
+        return 0;
+    }
+}
 
-        // Update the scorboard
-        // TODO: Calculate the total number of rolls/flips
-        // Make variables to track the percentages of heads and tails
-        // TODO: Use the calculated total to calculate the percentages
-        // HINT: Make sure not to divide by 0! (if total is 0, percent will be 0 as well)
-        // TODO: Update the display of each table cell
+// Creating function to update the HTML elements
+function updateView() {
+    document.querySelector("#heads-percent").innerText = findPercent(headsTotal, tailsTotal) + "%"
+    document.querySelector("#tails-percent").innerText = findPercent(tailsTotal, headsTotal) + "%"
+    document.querySelector("#heads").innerText = headsTotal
+    document.querySelector("#tails").innerText = tailsTotal
+}
 
+// Adding event listener to the flipper button
+flipper.addEventListener('click', function(){
+    if (Math.round(Math.random()) == 0){
+        image.src = "./assets/images/penny-heads.jpg"
+        headsTotal ++
+        document.querySelector("#status").innerText = "You have rolled Heads!"
+        updateView()
+    } else {
+        image.src = "./assets/images/penny-tails.jpg"
+        tailsTotal ++
+        document.querySelector("#status").innerText = "You have rolled Tails!"
+        updateView()
+    }
+})
 
-    // Clear Button Click Handler
-        // TODO: Reset global variables to 0
-        // TODO: Update the scoreboard (same logic as in flip button click handler)
-
+// Adding event listener to the reset button
+reset.addEventListener('click', function(){
+    headsTotal = 0
+    tailsTotal = 0
+    document.querySelector("#status").innerText = ""
+    updateView()
 })
